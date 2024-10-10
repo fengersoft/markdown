@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feng.markdownserver.mapper.MarkdownMapper">
+
+    <insert id="add" parameterType="com.feng.markdownserver.entity.dto.MarkdownDto">
+        insert into info(title,info) values (#{title},#{info})
+        <selectKey order="AFTER" resultType="java.lang.Integer" keyProperty="id">
+            select LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <update id="edit">
+        update info set title=#{title},info=#{info} where id=#{id}
+    </update>
+
+    <select id="showTitles" resultType="com.feng.markdownserver.entity.vo.MarkdownVo">
+        select id,title from info order by id
+    </select>
+
+    <select id="showInfo" resultType="com.feng.markdownserver.entity.vo.MarkdownVo">
+        select * from info where id=#{id}
+    </select>
+
+    <delete id="deleteInfo">
+        delete from info where id=#{id}
+    </delete>
+    <select id="search" resultType="com.feng.markdownserver.entity.vo.MarkdownVo">
+        select * from info where title like concat('%',#{keyword},'%') or info like concat('%',#{keyword},'%')
+    </select>
+
+
+
+</mapper>
